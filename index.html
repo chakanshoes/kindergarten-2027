@@ -1,0 +1,820 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>23년생 유치원 준비 노트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Gothic+A1:wght@400;600;800&display=swap">
+<style>
+/* 레이아웃: 인스타 4:5 카드를 옆으로 넘겨보는 공책형 캐러셀. 카테고리마다 고유 색 띠 */
+:root{
+  --page:#EAF0F4; --card:#FFFFFF; --ink:#22303C; --soft:#5B6B78; --line:#D9E2E9;
+  --mark:#FFE38A; --mark-ink:#22303C;
+  --c0:#22303C; --c1:#2F8A68; --c2:#6B5BD6; --c3:#2A6FB5; --c4:#C9701E;
+  --t1:#E6F4EE; --t2:#EEEBFC; --t3:#E5EFF9; --t4:#FBEEDF;
+  --display:"Jua","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --body:"Gothic A1","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --page:#10161B; --card:#1A232B; --ink:#E5ECF1; --soft:#9AABB8; --line:#2C3842;
+  --mark:#6B5A1E; --mark-ink:#FFF4CC;
+  --c0:#E5ECF1; --c1:#5CC69D; --c2:#A497F2; --c3:#6FA9E8; --c4:#F0A65E;
+  --t1:#18322A; --t2:#272442; --t3:#192A3D; --t4:#3A2A18; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --page:#10161B; --card:#1A232B; --ink:#E5ECF1; --soft:#9AABB8; --line:#2C3842;
+  --mark:#6B5A1E; --mark-ink:#FFF4CC;
+  --c0:#E5ECF1; --c1:#5CC69D; --c2:#A497F2; --c3:#6FA9E8; --c4:#F0A65E;
+  --t1:#18322A; --t2:#272442; --t3:#192A3D; --t4:#3A2A18; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--page);color:var(--ink);font-family:var(--body);margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:28px 48px}
+header.top{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px 24px;margin-bottom:18px}
+header.top h1{font-family:var(--display);font-weight:400;font-size:clamp(26px,4vw,38px);margin:0;text-wrap:balance;line-height:1.15}
+header.top p{margin:6px 0 0;color:var(--soft);font-size:14px;line-height:1.6;max-width:60ch}
+.jump{display:flex;flex-wrap:wrap;gap:8px}
+.jump button{font:600 13px var(--body);border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer}
+.jump button[data-c="1"]{border-color:var(--c1)}.jump button[data-c="2"]{border-color:var(--c2)}
+.jump button[data-c="3"]{border-color:var(--c3)}.jump button[data-c="4"]{border-color:var(--c4)}
+.jump button:hover{background:var(--line)}
+button:focus-visible,input:focus-visible{outline:3px solid var(--c3);outline-offset:2px}
+
+.stage{position:relative}
+.track{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding-block:6px 14px;align-items:flex-start;scrollbar-width:thin}
+.slide{flex:0 0 min(100%,560px);scroll-snap-align:start}
+/* 넓은 화면: 카드를 560px로 넓히고 글자 크기는 그대로 유지(=한 줄에 더 많은 글자) */
+.card{--k:.82}
+@media (max-width:600px){.card{--k:1}}
+.nav{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:6px}
+.nav button{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font-size:20px;cursor:pointer}
+.nav .count{font:600 14px var(--body);font-variant-numeric:tabular-nums;min-width:64px;text-align:center;color:var(--soft)}
+
+/* 카드 본체: 4:5 비율, 글자는 카드 너비에 비례 */
+/* 비율은 최소 높이로만 쓰고, 글이 길면 카드가 아래로 늘어나서 잘리지 않게 */
+.card{container-type:inline-size;background:var(--card);border-radius:14px;min-height:calc(min(100vw - 32px,560px) * 1.25);display:flex;flex-direction:column;position:relative;box-shadow:0 1px 0 var(--line),0 8px 24px rgba(20,40,60,.08)}
+.card .in{padding:calc(6.5cqw*var(--k)) calc(6.5cqw*var(--k)) calc(5cqw*var(--k));display:flex;flex-direction:column;gap:calc(3cqw*var(--k));flex:1;font-size:calc(3.35cqw*var(--k));line-height:1.55}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:calc(2.2cqw*var(--k));background:var(--cc);border-radius:14px 14px 0 0}
+.card .in>*{min-width:0}
+.tbl{overflow-x:auto}
+/* 슬라이드별 메모 */
+.memo{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.memo label{display:flex;justify-content:space-between;align-items:baseline;font:600 13px var(--body);color:var(--soft)}
+.memo label span{font-weight:400;font-size:12px}
+.memo textarea{width:100%;min-height:84px;resize:vertical;font:15px/1.6 var(--body);color:var(--ink);background:var(--card);border:1.5px dashed var(--line);border-radius:10px;padding:10px 12px}
+.memo textarea:focus{outline:none;border-style:solid;border-color:var(--c3)}
+.memo textarea::placeholder{color:var(--soft)}
+.card.k0{--cc:var(--c0);--ct:var(--t3)}.card.k1{--cc:var(--c1);--ct:var(--t1)}.card.k2{--cc:var(--c2);--ct:var(--t2)}
+.card.k3{--cc:var(--c3);--ct:var(--t3)}.card.k4{--cc:var(--c4);--ct:var(--t4)}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:calc(2.9cqw*var(--k));font-weight:600}
+.chip{background:var(--ct);color:var(--cc);border-radius:999px;padding:calc(.6cqw*var(--k)) calc(2.6cqw*var(--k))}
+.pg{color:var(--soft);font-variant-numeric:tabular-nums;letter-spacing:.04em}
+.card h2{font-family:var(--display);font-weight:400;font-size:calc(7.4cqw*var(--k));line-height:1.2;margin:0;text-wrap:balance}
+.card h2 em{font-style:normal;background:linear-gradient(transparent 58%,var(--mark) 58%);color:inherit}
+.lead{margin:0;color:var(--soft);font-size:calc(3.25cqw*var(--k))}
+.card ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:calc(1.3cqw*var(--k))}
+.card li{display:flex;gap:calc(2cqw*var(--k));align-items:flex-start}
+.card li::before{content:"";flex:0 0 calc(1.6cqw*var(--k));height:calc(1.6cqw*var(--k));border-radius:50%;background:var(--cc);margin-top:calc(1.7cqw*var(--k))}
+.box{background:var(--ct);border-radius:calc(2.4cqw*var(--k));padding:calc(3cqw*var(--k)) calc(3.6cqw*var(--k))}
+.box b,.card b{font-weight:800}
+.say{border-left:calc(1.2cqw*var(--k)) solid var(--cc);padding:calc(1.6cqw*var(--k)) calc(3cqw*var(--k));background:var(--ct);border-radius:0 calc(2cqw*var(--k)) calc(2cqw*var(--k)) 0;font-weight:600}
+.foot{margin-top:auto;display:flex;justify-content:space-between;font-size:calc(2.6cqw*var(--k));color:var(--soft);padding-top:calc(2cqw*var(--k));border-top:1px dashed var(--line)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:calc(3cqw*var(--k))}
+.two>div{min-width:0}
+.sub{font-family:var(--display);font-size:calc(4.1cqw*var(--k));color:var(--cc);margin:0 0 calc(1.2cqw*var(--k))}
+
+/* 1번 표지 */
+.cover .in{justify-content:space-between}
+.cover h2{font-size:calc(10cqw*var(--k))}
+.flow{display:flex;flex-direction:column;gap:calc(2.2cqw*var(--k))}
+.step{display:grid;grid-template-columns:calc(15cqw*var(--k)) 1fr;gap:calc(3cqw*var(--k));align-items:center}
+.step .m{font-family:var(--display);font-size:calc(6.4cqw*var(--k));text-align:center;border-radius:calc(2.4cqw*var(--k));padding:calc(1.6cqw*var(--k)) 0;color:var(--card)}
+.step:nth-child(1) .m{background:var(--c1)}.step:nth-child(2) .m{background:var(--c3)}.step:nth-child(3) .m{background:var(--c4)}
+.step p{margin:0}.step small{display:block;color:var(--soft);font-size:calc(2.9cqw*var(--k))}
+.legend{display:grid;grid-template-columns:1fr 1fr;gap:calc(1.6cqw*var(--k)) calc(3cqw*var(--k));font-size:calc(3cqw*var(--k));font-weight:600}
+.legend span{display:flex;gap:calc(1.6cqw*var(--k));align-items:center}
+.legend i{width:calc(3cqw*var(--k));height:calc(3cqw*var(--k));border-radius:calc(1cqw*var(--k));flex:none}
+
+/* 기질 카드 */
+.types{display:flex;flex-direction:column;gap:calc(1.9cqw*var(--k))}
+.type{display:grid;grid-template-columns:calc(24cqw*var(--k)) 1fr;gap:calc(2.4cqw*var(--k));border-bottom:1px dashed var(--line);padding-bottom:calc(1.9cqw*var(--k));font-size:calc(3.05cqw*var(--k));line-height:1.45}
+.type:last-child{border-bottom:0;padding-bottom:0}
+.type .who{font-weight:800}
+.type .who small{display:block;font-weight:600;color:var(--cc);font-size:calc(2.6cqw*var(--k));margin-top:calc(.6cqw*var(--k))}
+
+/* 체크리스트 */
+.chk{display:flex;flex-direction:column;gap:calc(1cqw*var(--k))}
+.chk label{display:flex;gap:calc(2cqw*var(--k));align-items:flex-start;cursor:pointer;font-size:calc(3.05cqw*var(--k));line-height:1.4}
+.chk input{appearance:none;flex:0 0 calc(3.6cqw*var(--k));height:calc(3.6cqw*var(--k));border:calc(.5cqw*var(--k)) solid var(--cc);border-radius:calc(.9cqw*var(--k));margin:calc(.3cqw*var(--k)) 0 0;cursor:pointer;display:grid;place-content:center;background:var(--card)}
+.chk input:checked{background:var(--cc)}
+.chk input:checked::after{content:"";width:calc(1.4cqw*var(--k));height:calc(2.2cqw*var(--k));border:solid var(--card);border-width:0 calc(.55cqw*var(--k)) calc(.55cqw*var(--k)) 0;transform:rotate(45deg) translate(calc(-.2cqw*var(--k)),calc(-.2cqw*var(--k)))}
+.chk input:checked+span{color:var(--soft);text-decoration:line-through}
+
+/* 순위표 */
+.rank table{width:100%;border-collapse:collapse;font-size:calc(2.9cqw*var(--k));font-variant-numeric:tabular-nums}
+.rank th,.rank td{border-bottom:1px solid var(--line);padding:calc(1cqw*var(--k)) calc(.6cqw*var(--k));text-align:center}
+.rank th:first-child,.rank td:first-child{text-align:left}
+.rank thead input{width:100%;min-width:0;font:700 calc(2.9cqw*var(--k)) var(--body);color:var(--ink);background:var(--ct);border:0;border-radius:calc(1.2cqw*var(--k));padding:calc(1.2cqw*var(--k));text-align:center}
+.crit{display:flex;align-items:center;gap:calc(1cqw*var(--k))}
+.pin{border:0;background:none;color:var(--line);font-size:calc(3.6cqw*var(--k));cursor:pointer;padding:0;line-height:1}
+.pin[aria-pressed="true"]{color:var(--c4)}
+.stars{display:inline-flex}
+.stars button{border:0;background:none;padding:0 calc(.15cqw*var(--k));font-size:calc(3.3cqw*var(--k));line-height:1;cursor:pointer;color:var(--line)}
+.stars button.on{color:var(--c4)}
+.rank tfoot td{font-weight:800;border-bottom:0}
+.medal{display:inline-block;min-width:calc(8cqw*var(--k));border-radius:999px;padding:calc(.4cqw*var(--k)) calc(1.6cqw*var(--k));font-size:calc(2.7cqw*var(--k));background:var(--ct);color:var(--cc)}
+.medal.r1{background:var(--c4);color:var(--card)}
+.hint{font-size:calc(2.6cqw*var(--k));color:var(--soft);margin:0}
+
+.sources{margin-top:28px;font-size:13px;line-height:1.7;color:var(--soft);max-width:80ch}
+.sources h3{font-family:var(--display);font-weight:400;font-size:18px;color:var(--ink);margin:0 0 6px}
+@media (prefers-reduced-motion:no-preference){.track{scroll-behavior:smooth}}
+
+/* 탭 */
+.tabs{display:flex;gap:4px;border-bottom:2px solid var(--line);margin-bottom:18px}
+.tabs button{font:600 15px var(--body);color:var(--soft);background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-2px;padding:10px 14px;cursor:pointer}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--c3)}
+.tabs button .n{display:inline-block;min-width:20px;margin-left:4px;font-size:12px;background:var(--t3);color:var(--c3);border-radius:999px;padding:1px 6px}
+
+/* 유치원 비교 */
+.cmp{display:flex;flex-direction:column;gap:22px}
+.cmp h2{font-family:var(--display);font-weight:400;font-size:22px;margin:0 0 4px}
+.cmp .desc{margin:0;color:var(--soft);font-size:14px;line-height:1.6;max-width:70ch}
+.alert{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;background:var(--t4);border-left:5px solid var(--c4);border-radius:0 12px 12px 0;padding:14px 16px;font-size:14px;line-height:1.55}
+.alert b{font-weight:800}
+.dday{font:800 13px var(--body);background:var(--c4);color:var(--card);border-radius:999px;padding:3px 10px;white-space:nowrap}
+.dday.past{background:var(--line);color:var(--soft)}
+.sched{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.sched div{background:var(--card);border-radius:10px;padding:10px 12px;font-size:13px;line-height:1.5;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.sched div b{display:block;font-size:14px}
+.sched div.past{opacity:.55}
+.scroll{overflow-x:auto;border-radius:12px;background:var(--card);box-shadow:0 1px 0 var(--line)}
+table.kg{border-collapse:separate;border-spacing:0;width:100%;min-width:560px;font-size:14px;line-height:1.55}
+table.kg th,table.kg td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+table.kg thead th{font-family:var(--display);font-weight:400;font-size:18px;background:var(--t3);position:sticky;top:0}
+table.kg thead th small{display:block;font:400 12px var(--body);color:var(--soft)}
+table.kg th[scope=row]{position:sticky;left:0;background:var(--card);width:130px;min-width:130px;font-weight:800;font-size:13px;z-index:1}
+table.kg th[scope=row] span{display:block;font-weight:400;font-size:12px;color:var(--soft)}
+table.kg tr.grp th{background:var(--page);font:600 12px var(--body);letter-spacing:.06em;color:var(--soft);padding:8px 14px;position:static}
+table.kg td{min-width:300px}
+table.kg td.empty{color:var(--soft);font-size:13px;background:repeating-linear-gradient(45deg,transparent 0 8px,var(--page) 8px 9px)}
+.v{font-weight:600}
+.fq{display:inline-block;font-size:12px;font-weight:800;background:var(--t3);color:var(--c3);border-radius:6px;padding:0 6px;margin-right:3px}
+.flag{display:inline-block;font-size:11px;font-weight:800;border-radius:6px;padding:1px 6px;margin-right:4px;vertical-align:1px}
+.flag.ok{background:var(--t1);color:var(--c1)}.flag.warn{background:var(--t4);color:var(--c4)}.flag.q{background:var(--line);color:var(--soft)}
+details.more{margin-top:6px}
+details.more summary{cursor:pointer;color:var(--c3);font-size:13px;font-weight:600;list-style:none}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::before{content:"＋ ";}
+details.more[open] summary::before{content:"－ ";}
+details.more .body{margin-top:6px;font-size:13px;color:var(--ink);background:var(--page);border-radius:8px;padding:10px 12px}
+details.more .body ul{margin:0;padding-left:18px}
+details.more .body p{margin:0 0 6px}
+details.more .body table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+details.more .body td,details.more .body th{border-bottom:1px solid var(--line);padding:4px 6px;text-align:left;font-size:13px;min-width:0}
+.cost{font-variant-numeric:tabular-nums}
+.cost li{display:flex;justify-content:space-between;gap:10px}
+.cost ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:2px}
+.st{font-weight:800;font-size:12px;border-radius:6px;padding:1px 7px;white-space:nowrap}
+.st.ok{background:var(--t1);color:var(--c1)}.st.part{background:var(--t4);color:var(--c4)}.st.no{background:var(--line);color:var(--soft)}
+.sum{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.call{background:var(--card);border-radius:12px;padding:14px 16px;font-size:14px;line-height:1.6}
+.call ol{margin:6px 0 0;padding-left:20px}
+.kgmemo{width:100%;min-height:90px;resize:vertical;font:14px/1.6 var(--body);color:var(--ink);background:var(--page);border:1.5px dashed var(--line);border-radius:8px;padding:8px 10px}
+.kgmemo:focus{outline:none;border-style:solid;border-color:var(--c3)}
+.addnext{font-size:13px;color:var(--soft)}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div>
+    <h1>23년생 첫 유치원 준비 노트</h1>
+    <p>2027학년도 유치원 입학을 앞둔 부모님을 위한 카드 10장. 생활 준비부터 기질, 설명회, 원서접수까지 순서대로 넘겨보세요. 체크박스와 순위표는 직접 눌러서 쓸 수 있고, 카드마다 아래에 메모를 적을 수 있어요.</p>
+  </div>
+  <nav class="jump" id="jump" aria-label="카테고리 바로가기">
+    <button data-go="1" data-c="1">① 생활 준비</button>
+    <button data-go="3" data-c="2">② 기질 파악</button>
+    <button data-go="5" data-c="3">③ 설명회</button>
+    <button data-go="9" data-c="4">④ 선택·신청</button>
+  </nav>
+</header>
+
+<div class="tabs" role="tablist" aria-label="보기 선택">
+  <button role="tab" id="tab-cards" aria-controls="panel-cards" aria-selected="true">준비 카드</button>
+  <button role="tab" id="tab-compare" aria-controls="panel-compare" aria-selected="false">다녀온 유치원 비교<span class="n" id="kgcount">1</span></button>
+</div>
+
+<div id="panel-compare" role="tabpanel" aria-labelledby="tab-compare" hidden>
+<div class="cmp">
+  <div class="alert" id="alert"></div>
+
+  <section>
+    <h2>핵심 차이 한눈에</h2>
+    <p class="desc">만 3세로 보낼 때 가장 크게 갈리는 것만 모았어요. 자세한 내용은 아래 비교표에 있어요.</p>
+    <div class="scroll" style="margin-top:10px"><table class="kg" id="quick"></table></div>
+  </section>
+
+  <section>
+    <h2>원서접수 일정</h2>
+    <p class="desc">우리 집은 <b>일반모집</b> 대상이라 일반모집 날짜만 보여줘요. 지난 일정은 흐리게 보여요.</p>
+    <div class="sched" id="sched" style="margin-top:10px"></div>
+  </section>
+
+  <section>
+    <h2>9개 항목 비교 · 만 3세(5세반) 기준</h2>
+    <p class="desc">말씀하신 9가지 항목 순서로 정리했어요. <span class="fq">매일</span> 같은 파란 표시는 횟수예요. 긴 설명은 <b>＋ 자세히</b>를 눌러 펼쳐 보세요.</p>
+    <div class="scroll" style="margin-top:10px"><table class="kg" id="kgtable"></table></div>
+  </section>
+
+  <section>
+    <h2>설명회 질문 체크 결과</h2>
+    <p class="desc">준비 카드 7장 "꼭 물어볼 것" 18개를 받은 자료와 맞춰봤어요. <span class="st ok">확인</span> 자료에 답이 있음, <span class="st part">일부</span> 일부만 있음, <span class="st no">없음</span> 전화로 물어봐야 함.</p>
+    <div class="scroll" style="margin-top:10px"><table class="kg" id="qtable"></table></div>
+  </section>
+
+  <section class="call" id="calllist"></section>
+</div>
+</div>
+
+<div id="panel-cards" role="tabpanel" aria-labelledby="tab-cards">
+<div class="stage">
+<div class="track" id="track" tabindex="0" aria-label="카드 넘겨보기">
+
+<!-- 01 표지 -->
+<section class="slide"><article class="card k0 cover"><div class="in">
+  <div class="meta"><span class="chip">23년생 유치원 준비</span><span class="pg">01 / 10</span></div>
+  <h2>첫 유치원,<br><em>9·10·11월</em> 순서만<br>기억하세요</h2>
+  <div class="flow">
+    <div class="step"><div class="m">9월</div><p><b>찾기</b> · 유치원알리미로 집 근처 후보 추리기<small>목표: 후보 5곳 안팎</small></p></div>
+    <div class="step"><div class="m">10월</div><p><b>보고 비교하기</b> · 설명회 참석, 직접 가보기<small>목표: 1·2·3순위 정하기</small></p></div>
+    <div class="step"><div class="m">11월</div><p><b>신청·등록</b> · 유보통합포털에서 원서접수<small>목표: 결과 확인 후 등록까지 완료</small></p></div>
+  </div>
+  <div class="legend">
+    <span><i style="background:var(--c1)"></i>① 생활 준비</span>
+    <span><i style="background:var(--c2)"></i>② 기질 파악</span>
+    <span><i style="background:var(--c3)"></i>③ 설명회 체크</span>
+    <span><i style="background:var(--c4)"></i>④ 선택·신청</span>
+  </div>
+  <div class="foot"><span>정확한 일정은 유보통합포털 공지로 확인</span><span>넘겨보기 →</span></div>
+</div></article></section>
+
+<!-- 02 생활 루틴 -->
+<section class="slide" id="s1"><article class="card k1"><div class="in">
+  <div class="meta"><span class="chip">① 생활 준비</span><span class="pg">02 / 10</span></div>
+  <h2>입학 전엔 공부보다<br><em>"혼자 해보기"</em> 연습</h2>
+  <p class="lead">유치원 적응은 아이가 스스로 할 수 있는 일이 얼마나 되는지에 크게 달려 있어요.</p>
+  <div class="two">
+    <div><p class="sub">몸으로 하는 것</p><ul>
+      <li>화장실 가고 싶다고 말하기</li>
+      <li>바지 내리고 올리기, 손 씻기</li>
+      <li>옷·겉옷 입고 벗기</li>
+      <li>양말·신발 혼자 신기</li>
+    </ul></div>
+    <div><p class="sub">생활 습관</p><ul>
+      <li>정해진 시간 안에 스스로 먹기</li>
+      <li>울기 전에 "도와주세요" 말하기</li>
+      <li>내 가방·물건 자리 정해 챙기기</li>
+      <li>간식·놀이 차례 기다리기</li>
+      <li>등원 시간에 맞춰 일어나고, 낮잠 없이 오후 보내기</li>
+    </ul></div>
+  </div>
+  <div class="say">선생님들이 특히 힘들어하는 건 화장실·밥·신발이에요. 완벽하게 해내기보다 "나도 혼자 할 수 있어" 경험을 쌓는 게 목표예요. 하루 하나씩, 지금 시작하면 좋아요.</div>
+  <div class="foot"><span>23년생 유치원 준비 노트</span><span>생활 준비 1/2</span></div>
+</div></article></section>
+
+<!-- 03 자주 묻는 것 -->
+<section class="slide"><article class="card k1"><div class="in">
+  <div class="meta"><span class="chip">① 생활 준비</span><span class="pg">03 / 10</span></div>
+  <h2>처음 보내는 엄마들이<br><em>제일 궁금한 5가지</em></h2>
+  <div class="types">
+    <div class="type"><div class="who">낮잠은?</div><div>대부분 정규 일과에 낮잠 시간이 없어요. 리듬을 조금씩 맞춰주세요. 낮잠이 꼭 필요하거나 배변·말이 느린 편이면 어린이집 만 4세반을 이어 다니는 것도 방법이에요.</div></div>
+    <div class="type"><div class="who">한글은?</div><div>꼭 떼고 갈 필요 없어요. 유치원은 놀이 중심이라 책·글자에 관심을 갖는 정도면 충분해요.</div></div>
+    <div class="type"><div class="who">뒤처리가 서툴러요</div><div>서툴러도 괜찮아요. 말하기 → 바지 내리기·올리기 → 손 씻기, 되는 것부터 하나씩.</div></div>
+    <div class="type"><div class="who">밥을 혼자 못 먹어요</div><div>잘 먹는 것보다 스스로 먹어보고, 도움이 필요할 때 말하는 연습이 먼저예요.</div></div>
+    <div class="type"><div class="who">낯가림이 심해요</div><div>적응 속도는 아이마다 달라요. 유치원 생활을 미리 이야기 나누며 새 환경에 좋은 마음을 만들어 주세요.</div></div>
+  </div>
+  <div class="foot"><span>23년생 유치원 준비 노트</span><span>생활 준비 2/2</span></div>
+</div></article></section>
+
+<!-- 04 기질별 환경 -->
+<section class="slide" id="s2"><article class="card k2"><div class="in">
+  <div class="meta"><span class="chip">② 기질 파악</span><span class="pg">04 / 10</span></div>
+  <h2>우리 아이 성향에<br><em>맞는 환경</em> 찾기</h2>
+  <div class="types">
+    <div class="type"><div class="who">활동적, 새것 좋아함<small>TCI 자극추구 참고</small></div><div>바깥놀이·자유놀이가 넉넉하고, 체험·프로젝트 활동과 스스로 고를 기회가 많은 곳. 규칙만 강한 곳은 답답할 수 있어요.</div></div>
+    <div class="type"><div class="who">조심스럽고 적응이 느림<small>TCI 위험회피 참고</small></div><div>규모가 너무 크지 않고, 교사가 세심하며, 적응 기간을 넉넉히 배려하는 따뜻한 곳.</div></div>
+    <div class="type"><div class="who">규칙이 편하고 잘 몰입함<small>TCI 인내력 참고</small></div><div>일과가 안정적이고 순서·규칙이 분명하며 몰입할 시간이 있는 곳. 단, "집중력 높으면 몬테소리"처럼 단정하진 마세요.</div></div>
+    <div class="type"><div class="who">선생님 도움이 많이 필요<small>TCI 사회적 민감성 참고</small></div><div>교사와 상호작용이 충분하고, 학급이 크지 않아 개별 도움을 받을 수 있는 곳.</div></div>
+    <div class="type"><div class="who">소리·냄새·촉감에 예민<small>TCI 척도는 아님</small></div><div>지나치게 소란스럽지 않고, 쉴 공간이 있으며, 자극이 과하지 않은 곳. 실제 생활 모습으로 판단해요.</div></div>
+  </div>
+  <div class="foot"><span>23년생 유치원 준비 노트</span><span>기질 1/2</span></div>
+</div></article></section>
+
+<!-- 05 기질 보는 법 + 질문 -->
+<section class="slide"><article class="card k2"><div class="in">
+  <div class="meta"><span class="chip">② 기질 파악</span><span class="pg">05 / 10</span></div>
+  <h2>기질은 <em>세 가지를 같이</em><br>봐야 정확해요</h2>
+  <div class="box"><b>타고난 기질 → 실제 행동 → 유치원 교육환경</b><br>TCI 같은 검사는 아이를 좋다·나쁘다로 나누는 게 아니라, 아이를 더 깊이 이해하기 위한 지도예요. 검사 결과와 평소 생활 모습을 꼭 함께 보세요.</div>
+  <p class="sub">우리 아이에 해당하는 것 체크</p>
+  <div class="chk two" data-key="trait">
+    <div class="chk">
+      <label><input type="checkbox" id="t1"><span>낯가림이 심해요</span></label>
+      <label><input type="checkbox" id="t2"><span>새 환경 적응이 느려요</span></label>
+      <label><input type="checkbox" id="t3"><span>활동량이 많아요</span></label>
+      <label><input type="checkbox" id="t4"><span>예민한 편이에요</span></label>
+    </div>
+    <div class="chk">
+      <label><input type="checkbox" id="t5"><span>친구에게 먼저 못 다가가요</span></label>
+      <label><input type="checkbox" id="t6"><span>배변이 아직 서툴러요</span></label>
+      <label><input type="checkbox" id="t7"><span>식사가 어려워요</span></label>
+      <label><input type="checkbox" id="t8"><span>낮잠이 필요해요</span></label>
+    </div>
+  </div>
+  <div class="say">설명회에서 이렇게 물어보세요<br>"저희 아이가 ○○한 편인데, 원에서는 어떻게 도와주시나요?"</div>
+  <div class="foot"><span>23년생 유치원 준비 노트</span><span>기질 2/2</span></div>
+</div></article></section>
+
+<!-- 06 설명회 전 -->
+<section class="slide" id="s3"><article class="card k3"><div class="in">
+  <div class="meta"><span class="chip">③ 설명회</span><span class="pg">06 / 10</span></div>
+  <h2>설명회 가기 전<br><em>집에서 먼저</em> 할 일</h2>
+  <div class="two">
+    <div><p class="sub">유치원알리미로 미리 확인</p><ul>
+      <li>만 3세 학급 수·반별 인원</li>
+      <li>교사 수, 평균 근속연수</li>
+      <li>교육비·특성화 활동비</li>
+      <li>통학차량, 급식 직영 여부</li>
+      <li>방과후 돌봄 운영 시간</li>
+      <li>공립(병설·단설)·사립, 집과 거리</li>
+    </ul></div>
+    <div><p class="sub">일정 잡기</p><ul>
+      <li>설명회 예약 방법은 원마다 달라요(전화·홈페이지·문자). 전화로 확인</li>
+      <li>대부분 10월 중순~말에 몰려 있어요</li>
+      <li>겹치면 꼭 갈 곳 3곳 정도만 고르기</li>
+      <li>셔틀이 우리 동네까지 오는지 함께 문의</li>
+    </ul></div>
+  </div>
+  <div class="box"><b>직접 가보기</b> · 실제 통학거리, 등원 시간대 교통·주차, 바깥놀이 공간과 주변 안전. 지도로 보는 거리와 아침 등원길은 생각보다 달라요.</div>
+  <div class="foot"><span>홈페이지로 알 수 있는 건 미리, 설명회에선 직접 봐야 아는 것을</span><span>1/4</span></div>
+</div></article></section>
+
+<!-- 07 설명회 질문 -->
+<section class="slide"><article class="card k3"><div class="in">
+  <div class="meta"><span class="chip">③ 설명회</span><span class="pg">07 / 10</span></div>
+  <h2>설명회에서 <em>꼭 물어볼 것</em></h2>
+  <div class="two">
+    <div class="chk" data-key="q1">
+      <p class="sub">하루·선생님</p>
+      <label><input type="checkbox" id="q1"><span>만 3세 아이의 실제 하루 일과</span></label>
+      <label><input type="checkbox" id="q2"><span>자유놀이·바깥놀이는 하루 얼마나</span></label>
+      <label><input type="checkbox" id="q3"><span>반 정원, 선생님 둘 다 담임인지 보조인지</span></label>
+      <label><input type="checkbox" id="q4"><span>계속 우는 아이 적응은 어떻게</span></label>
+      <label><input type="checkbox" id="q5"><span>친구 갈등은 어떻게 중재</span></label>
+      <label><input type="checkbox" id="q6"><span>담임은 매년 바뀌나요</span></label>
+      <p class="sub">생활·건강</p>
+      <label><input type="checkbox" id="q7"><span>급식 직영? 알레르기 대체식</span></label>
+      <label><input type="checkbox" id="q8"><span>배변 실수 때 도움</span></label>
+      <label><input type="checkbox" id="q9"><span>투약, 아프거나 다쳤을 때 연락</span></label>
+    </div>
+    <div class="chk" data-key="q2">
+      <p class="sub">맞벌이·통학</p>
+      <label><input type="checkbox" id="q10"><span>방과후·아침 돌봄 몇 시까지/부터</span></label>
+      <label><input type="checkbox" id="q11"><span>오후엔 반이 합쳐지고 교사가 바뀌나</span></label>
+      <label><input type="checkbox" id="q12"><span>늦은 하원 시 간식·저녁, 추가 비용</span></label>
+      <label><input type="checkbox" id="q13"><span>방학 중 돌봄·급식·차량 운영</span></label>
+      <label><input type="checkbox" id="q14"><span>차량 실제 탑승 시간, 동승 교사</span></label>
+      <p class="sub">모집·비용</p>
+      <label><input type="checkbox" id="q15"><span>만 3세반 모집 인원(우선·일반)</span></label>
+      <label><input type="checkbox" id="q16"><span>우선모집 조건, 형제자매 우선</span></label>
+      <label><input type="checkbox" id="q17"><span>차량·교재·원복·특성화 등 추가 비용</span></label>
+      <label><input type="checkbox" id="q18"><span>상담 주기, 알림장·앱 소통 방식</span></label>
+    </div>
+  </div>
+  <div class="say">"뭘 많이 하나요?"보다 "아이들이 하루를 어떤 방식으로 놀고 배우나요?"</div>
+  <div class="foot"><span>23년생 유치원 준비 노트</span><span>설명회 2/4</span></div>
+</div></article></section>
+
+<!-- 08 눈으로 볼 것 + 자료 -->
+<section class="slide"><article class="card k3"><div class="in">
+  <div class="meta"><span class="chip">③ 설명회</span><span class="pg">08 / 10</span></div>
+  <h2>설명보다 <em>눈으로</em> 확인할 것</h2>
+  <div class="two">
+    <div class="chk" data-key="look">
+      <p class="sub">선생님과 아이들</p>
+      <label><input type="checkbox" id="l1"><span>아이들이 편하게 다가가나</span></label>
+      <label><input type="checkbox" id="l2"><span>교사의 말투와 표정</span></label>
+      <label><input type="checkbox" id="l3"><span>우는 아이·도움 요청에 반응</span></label>
+      <label><input type="checkbox" id="l4"><span>놀이를 스스로 고르고 있나</span></label>
+      <p class="sub">시설</p>
+      <label><input type="checkbox" id="l5"><span>교실·화장실·급식실 청결</span></label>
+      <label><input type="checkbox" id="l6"><span>아이 눈높이 변기·세면대</span></label>
+      <label><input type="checkbox" id="l7"><span>쉴 공간, 실외 놀이공간</span></label>
+      <label><input type="checkbox" id="l8"><span>환기, 공기청정기, 사각지대</span></label>
+      <label><input type="checkbox" id="l9"><span>외부인 출입 관리, CCTV</span></label>
+    </div>
+    <div class="chk" data-key="doc">
+      <p class="sub">받아오거나 찍어올 자료</p>
+      <label><input type="checkbox" id="d1"><span>하루 일과표·주간 시간표</span></label>
+      <label><input type="checkbox" id="d2"><span>한 달 식단표</span></label>
+      <label><input type="checkbox" id="d3"><span>연간 행사 계획</span></label>
+      <label><input type="checkbox" id="d4"><span>특성화·방과후 안내</span></label>
+      <label><input type="checkbox" id="d5"><span>통학차량 노선표</span></label>
+      <label><input type="checkbox" id="d6"><span>전체 비용 안내</span></label>
+      <label><input type="checkbox" id="d7"><span>방학 일정·방학 돌봄</span></label>
+      <div class="box" style="margin-top:calc(1.6cqw*var(--k))">숨은 곳도 보세요. 소화기 위 먼지, 화장실 소독기 안쪽처럼 손이 덜 가는 곳이 관리 수준을 알려줘요.</div>
+    </div>
+  </div>
+  <div class="foot"><span>예쁜 시설보다 그 안의 분위기</span><span>설명회 3/4</span></div>
+</div></article></section>
+
+<!-- 09 비교·순위표 -->
+<section class="slide"><article class="card k3 rank"><div class="in">
+  <div class="meta"><span class="chip">③ 설명회</span><span class="pg">09 / 10</span></div>
+  <h2>다녀온 날 바로<br><em>1분 비교·순위표</em></h2>
+  <p class="hint">별을 눌러 점수를 주세요. 📌를 누르면 우리 집 중요 기준(최대 3개)이 되어 점수가 2배로 계산돼요.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>항목</th>
+      <th><input id="nA" placeholder="유치원 A" aria-label="유치원 A 이름"></th>
+      <th><input id="nB" placeholder="유치원 B" aria-label="유치원 B 이름"></th>
+      <th><input id="nC" placeholder="유치원 C" aria-label="유치원 C 이름"></th></tr></thead>
+    <tbody id="rows"></tbody>
+    <tfoot>
+      <tr><td>합계</td><td id="sA">0</td><td id="sB">0</td><td id="sC">0</td></tr>
+      <tr><td>순위</td><td><span class="medal" id="rA">-</span></td><td><span class="medal" id="rB">-</span></td><td><span class="medal" id="rC">-</span></td></tr>
+    </tfoot>
+  </table></div>
+  <p class="hint">며칠 지나면 기억이 섞여요. 설명회 끝나자마자 적고, 마음에 든 점·걸린 점도 메모해 두세요.</p>
+  <div class="foot"><span>23년생 유치원 준비 노트</span><span>설명회 4/4</span></div>
+</div></article></section>
+
+<!-- 10 최종 선택·신청 -->
+<section class="slide" id="s4"><article class="card k4"><div class="in">
+  <div class="meta"><span class="chip">④ 선택·신청</span><span class="pg">10 / 10</span></div>
+  <h2><em>1·2·3지망</em> 정하고<br>등록까지 끝내기</h2>
+  <div class="box"><b>고르는 법</b> · 인기 많은 곳보다 "여기 붙으면 가장 기쁠 곳". 일반모집은 희망 순서대로 추첨해서 1지망에 뽑히면 2·3지망은 추첨에서 빠져요. 세 곳 모두 <b>실제로 다닐 곳</b>만 쓰세요.</div>
+  <div class="two">
+    <div><p class="sub">접수 전 준비</p><ul>
+      <li>신청은 <b>유보통합포털</b>(enter.childinfo.go.kr). 예전 '처음학교로'가 아니에요</li>
+      <li>회원가입·로그인, 자녀 정보 미리 확인</li>
+      <li>원별 모집요강(인원·자격·서류·일정)</li>
+    </ul></div>
+    <div><p class="sub">모집·등록</p><ul>
+      <li>우선모집 → 일반모집 → 추가모집. 우선모집 대상이면 먼저 지원</li>
+      <li>뽑혀도 등록기간 안에 등록 안 하면 자동 포기</li>
+      <li>대기 번호는 남이 포기하면 바뀌니 계속 확인</li>
+    </ul></div>
+  </div>
+  <div class="say">비용 참고 · 2027년부터 만 3세도 추가 지원 대상이 될 예정이에요. 지금 단가대로라면 사립 월 최대 46만 원, 국공립 월 최대 17만 원이에요. 차량비·특성화비 등은 따로 들 수 있어요.</div>
+  <div class="foot"><span>세부 일정·최종 지원금은 공식 공지 확인</span><span>선택·신청</span></div>
+</div></article></section>
+
+</div>
+<div class="nav"><button id="prev" aria-label="이전 카드">‹</button><span class="count" id="count">1 / 10</span><button id="next" aria-label="다음 카드">›</button></div>
+</div>
+
+<section class="sources">
+  <h3>참고한 자료</h3>
+  PDF 「아이 성향에 따른 유치원 선택 2026」 · 노션 「유치원 설명회 질문 &amp; 체크리스트」, 「2027년 유치원 입학설명회 체크리스트」 · 인스타그램 @chaeni._.log(원서접수 7탄, 입학 준비 5탄), @twobaby.seo(설명회 체크리스트, 유치원 비교표), @powerj_harimom(10월에 할 일), @chchmom_yak(유치원 전화돌리기 2탄), @moyababa.story(9·10·11월 체크리스트). 인스타그램 #2023년생 검색 상위 100개 중 캡션에 '유치원'이 들어간 38개도 확인해 @twobaby.seo(1지망 쓰는 법, 선발과 등록), @6a_rehearsal(설명회 질문, 입학 전 7가지), @chaeni._.log(유아학비 지원, 병설·단설·사립), @jjongr._.yaksa(어린이집 연장 vs 유치원) 내용을 더했어요. 내용은 카테고리별로 다시 정리했어요.
+</section>
+</div>
+</div>
+
+<script>
+(function(){
+  const track=document.getElementById('track');
+  const slides=[...track.querySelectorAll('.slide')];
+  const count=document.getElementById('count');
+  const go=i=>{i=Math.max(0,Math.min(slides.length-1,i));track.scrollTo({left:slides[i].offsetLeft-track.offsetLeft,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});};
+  const cur=()=>{let best=0,d=Infinity;slides.forEach((s,i)=>{const x=Math.abs(s.offsetLeft-track.offsetLeft-track.scrollLeft);if(x<d){d=x;best=i}});return best};
+  track.addEventListener('scroll',()=>{count.textContent=(cur()+1)+' / '+slides.length},{passive:true});
+  document.getElementById('prev').onclick=()=>go(cur()-1);
+  document.getElementById('next').onclick=()=>go(cur()+1);
+  track.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();go(cur()+1)}if(e.key==='ArrowLeft'){e.preventDefault();go(cur()-1)}});
+  document.querySelectorAll('.jump button').forEach(b=>b.onclick=()=>go(+b.dataset.go));
+
+  // 저장(이 브라우저에만)
+  const K='kinder23-v1';let st={};
+  try{st=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){st={}}
+  const save=()=>{try{localStorage.setItem(K,JSON.stringify(st))}catch(e){}};
+  st.c=st.c||{};
+  document.querySelectorAll('.chk input[type=checkbox]').forEach(cb=>{cb.checked=!!st.c[cb.id];cb.onchange=()=>{st.c[cb.id]=cb.checked;save()}});
+
+  // 순위표
+  const crit=['선생님 분위기','아이들 분위기','놀이·바깥놀이 시간','교육 방향','우리 아이와 잘 맞음','통학 현실성','맞벌이 이용 편의','비용 부담 적음'];
+  const ks=['A','B','C'];
+  st.s=st.s||{};st.p=st.p||[];st.n=st.n||{};
+  const tb=document.getElementById('rows');
+  crit.forEach((c,ri)=>{
+    const tr=document.createElement('tr');
+    const td0=document.createElement('td');
+    td0.innerHTML='<span class="crit"><button class="pin" aria-label="'+c+' 중요 기준으로 표시">📌</button><span>'+c+'</span></span>';
+    tr.appendChild(td0);
+    ks.forEach(k=>{
+      const td=document.createElement('td');const w=document.createElement('span');w.className='stars';
+      for(let v=1;v<=5;v++){const b=document.createElement('button');b.textContent='★';b.dataset.v=v;b.setAttribute('aria-label',c+' 유치원 '+k+' '+v+'점');
+        b.onclick=()=>{const key=ri+k;st.s[key]=(st.s[key]===v?0:v);save();paint()};w.appendChild(b)}
+      w.dataset.key=ri+k;td.appendChild(w);tr.appendChild(td)});
+    td0.querySelector('.pin').onclick=()=>{const i=st.p.indexOf(ri);if(i>=0)st.p.splice(i,1);else if(st.p.length<3)st.p.push(ri);save();paint()};
+    tb.appendChild(tr)});
+  ks.forEach(k=>{const el=document.getElementById('n'+k);el.value=st.n[k]||'';el.oninput=()=>{st.n[k]=el.value;save()}});
+  function paint(){
+    tb.querySelectorAll('.stars').forEach(w=>{const v=st.s[w.dataset.key]||0;w.querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.v<=v))});
+    tb.querySelectorAll('tr').forEach((tr,ri)=>tr.querySelector('.pin').setAttribute('aria-pressed',st.p.includes(ri)));
+    const tot={};ks.forEach(k=>{tot[k]=crit.reduce((a,_,ri)=>a+(st.s[ri+k]||0)*(st.p.includes(ri)?2:1),0);document.getElementById('s'+k).textContent=tot[k]});
+    const sorted=[...ks].sort((a,b)=>tot[b]-tot[a]);
+    ks.forEach(k=>{const el=document.getElementById('r'+k);if(!tot[k]){el.textContent='-';el.className='medal';return}
+      const r=sorted.filter(x=>tot[x]>tot[k]).length+1;el.textContent=r+'순위';el.className='medal'+(r===1?' r1':'')});
+  }
+  paint();
+})();
+
+// ───── 다녀온 유치원 데이터 (나라님이 요청한 9개 항목 순서) ─────
+// v 안의 [대괄호]는 횟수 배지로 표시돼요.
+const KG=[{
+  id:'dream', name:'드림유치원', sub:'사립 · 사진자료 + 원장 강연 녹취록',
+  quick:{cls:'23~24명 · 담임+부담임',time:'첫 등원 9:00 · 마지막 하원 16:40',cost:'222,000원 / 오후까지 422,000원',entry:'입학금 30,000원',prio:'115명 중 우선모집 뒤 남는 자리',edu:'몬테소리·영어 몰입·체육 매일'},
+  sched:[
+    {t:'우선모집 접수',from:'2026-11-02',to:'2026-11-04'},
+    {t:'우선모집 발표',from:'2026-11-09',time:'15시'},
+    {t:'일반모집 접수',from:'2026-11-17',to:'2026-11-23'},
+    {t:'일반모집 발표',from:'2026-11-26',time:'15시'}
+  ],
+  cells:{
+    cost:{f:'ok',v:'정규+차량 222,000원 · 특성화 더하면 362,000원 · 돌봄까지 422,000원',d:'<div class="cost"><ul><li><span>월 교육비(5세, 유아학비 지원 후)</span><b>204,000원</b></li><li><span>월 차량비</span><b>18,000원</b></li><li><span>월 방과후 특성화(선택)</span><b>140,000원</b></li><li><span>월 방과후 돌봄(선택)</span><b>60,000원</b></li></ul></div><p style="margin-top:8px">2026년 기준이라 바뀔 수 있어요.</p>'},
+    once:{f:'warn',v:'입학금 30,000원(가방 포함) · 원복 가격은 자료 없음',d:'원복은 프리미엄 교복 "리틀스마트"(하복·정복·동복 체육복)를 맞춰요. 가격은 자료에 없어요.'},
+    y27:{f:'q',v:'(추정) 만 3세 추가지원이 생기면 교육비가 내려갈 수 있음',d:'같은 원 6세 교육비는 94,000원이에요. 차이 110,000원이 지금 만 4~5세만 받는 추가지원금(월 11만 원)과 같아요. 원에 꼭 확인하세요.'},
+    cond:{f:'warn',v:'우선모집에 다자녀(2자녀↑)·형제 등 포함 → 일반모집은 남는 자리',d:'<ul><li>5세 정원 115명(우선+일반). 일반모집이 몇 명인지는 자료에 없어요.</li><li>우선모집 기타 4순위: 다자녀(2자녀 이상), 쌍생아, 재원생 형제·자매, 졸업생 동생, 다문화, 장애부모, 한부모.</li></ul>'},
+    cls:{f:'ok',v:'5개 반 · 반당 23~24명',d:'6세는 반당 25~26명, 7세는 26명이에요.'},
+    teacher:{f:'warn',v:'만 3세 반만 담임+부담임 2명',d:'자료에는 "투담임/보조 체제"로만 적혀 있어요. 둘 다 담임인지, 오후에도 함께인지는 확인이 필요해요. 6·7세는 담임 1명.'},
+    routine:{f:'ok',v:'정규 9:00~14:00 (B코스 9:30~14:30) · 영어·체육·몬테소리 매일',d:'<table><tr><th>과정</th><th>A코스</th><th>B코스</th></tr><tr><td>정규</td><td>09:00~14:00</td><td>09:30~14:30</td></tr><tr><td>방과후 특성화(선택)</td><td>~15:00</td><td>~15:30</td></tr><tr><td>방과후 돌봄(신청)</td><td colspan="2">16:10~16:40 하원</td></tr></table>'},
+    a_body:{f:'ok',v:'[매일] 리듬 체육 · 드림 무한도전 과제',d:'<ul><li>사쿠라란보 리듬 체육: 매트·뜀틀·철봉·달리기·축구 등. 5세는 스트레칭·균형 위주.</li><li>드림 무한도전: 양말 접기, 단추, 젓가락, 한발 균형, 달리기·마라톤 대회(7세 2.5km).</li></ul>'},
+    a_eng:{f:'ok',v:'[매일] GrapeSEED 몰입 영어',d:'원어민 2명 + 이중언어 교사 1명. 수업 중 한국어를 쓰지 않아요. 집에서도 영어 영상·음원 반복 듣기를 권해요.'},
+    a_read:{f:'ok',v:'[매일 10분] 독서 · 몬테소리 언어 영역',d:'3년간 1,000권 목표. 한글은 모래 글자·이동 문자 카드로 익혀요.'},
+    a_char:{f:'q',v:'12가지 성품 교육 (5세는 "경청")',d:'횟수는 자료에 없어요.'},
+    a_math:{f:'ok',v:'[매일 40분] 몬테소리 · AI 코딩·플레도 블록',d:'<ul><li>몬테소리: 5세는 활동의 60~70%가 일상 영역(신발 신기, 옷 입기, 가위질, 오이 썰기 등).</li><li>AI·코딩 미래교실, 플레도 AI 블록. 횟수는 자료에 없어요.</li></ul>'},
+    a_art:{f:'q',v:'방과후 돌봄 때 블록·미술·수·한글',d:'정규 미술·음악 수업 횟수는 자료에 없어요.'},
+    a_eco:{f:'q',v:'텃밭·농장 수확·실내 스마트팜',d:'횟수는 자료에 없어요.'},
+    a_event:{f:'q',v:'스페셜데이: 물놀이·수박 농장, 미니 기차, 산타, 발표회',d:'횟수는 자료에 없어요.'},
+    parent:{f:'warn',v:'부모 참여 행사는 자료에 없음',d:'설명회 자료에 학부모 참여 행사가 따로 나오지 않았어요. 전화로 물어보세요.'},
+    talk:{f:'warn',v:'관찰 기록 · 사진·영상 · 알림장 · 성장 기록',d:'정기 상담 주기는 자료에 없어요.'},
+    bus:{f:'warn',v:'월 18,000원 · 노선·탑승 시간은 자료 없음',d:'<ul><li>등원 코스에 따라 정규 시작이 9:00(A) 또는 9:30(B).</li><li>하원 차량: 14:00/14:30, 특성화 15:00/15:30, 돌봄 16:10~16:40.</li><li>우리 동네 노선, 실제 탑승 시간, 동승 선생님은 전화로 확인하세요.</li></ul>'},
+    first:{f:'warn',v:'9:00 (아침 돌봄은 자료 없음)',d:'B코스는 9:30 시작이에요.'},
+    last:{f:'ok',v:'16:40 (돌봄 신청 시)',d:'그보다 늦은 하원은 자료에 없어요.'},
+    after:{f:'ok',v:'특성화 ~15:30(선택) + 돌봄 ~16:40(신청)',d:'<ul><li>정규 후 방과후 교실로 옮겨 자유선택놀이, 오후 간식, 블록·미술·수·한글.</li><li>여름·겨울 방학 각 5일은 운영 안 해요.</li></ul>'},
+    meal:{f:'warn',v:'청정원 식재료 매일 · 오전·오후 간식',d:'<ul><li>살균 소독시설, 보존식 보관.</li><li>직접 조리하는지, 알레르기 대체식, 간식 메뉴는 자료에 없어요.</li></ul>'},
+    mood:{f:'q',v:'"교육관이 맞는지 확인하는 자리" · 성품·몬테소리 강조',d:'원장님이 기독교인이라고 밝혔어요. 수업에 종교 활동이 있는지는 물어보세요.'}
+  },
+  q:{q1:['part','시간표만 있음 (9:00~14:00)'],q2:['no',''],q3:['ok','23~24명, 담임+부담임'],q4:['no',''],q5:['no',''],q6:['no',''],
+     q7:['part','청정원 식재료, 직영·대체식은 모름'],q8:['no',''],q9:['no',''],q10:['part','돌봄 하원 16:10~16:40, 아침 돌봄 모름'],
+     q11:['part','돌봄은 방과후 교실로 이동, 담당 교사 모름'],q12:['part','오후 간식 있음, 저녁 없음 · 돌봄 월 6만 원'],
+     q13:['part','여름·겨울 각 5일 운영 안 함'],q14:['no',''],q15:['part','5세 115명 (우선·일반 나눔은 모름)'],
+     q16:['ok','다자녀·형제자매 등 기타 4순위'],q17:['part','차량·특성화·돌봄 비용 있음, 원복·교재 모름'],q18:['part','알림장·사진 있음, 상담 주기 모름']}
+},{
+  id:'sera', name:'세라유치원', sub:'사립 · 사진자료 + 원장 강연·Q&A 녹취록',
+  quick:{cls:'19명 · 담임 1명+복도 전담',time:'첫 등원 자료 없음 · 마지막 하원 19:00',cost:'275,000원 / 오후까지 395,000원',entry:'입학금 150,000원 (원복 별도)',prio:'일반 약 37명 예상 (다자녀도 일반)',edu:'놀이·프로젝트 수업, 원내 수영장'},
+  sched:[],
+  cells:{
+    cost:{f:'ok',v:'교육과정 275,000원 · 방과후까지 395,000원',d:'<div class="cost"><ul><li><span>월 교육비(3세 무상교육비 5만 원 반영)</span><b>203,000원</b></li><li><span>월 차량비</span><b>12,000원</b></li><li><span>월 특성화비(영어 3종)</span><b>60,000원</b></li><li><span>월 방과후반비(간식 포함)</span><b>40,000원</b></li><li><span>월 방과후 특성화비</span><b>80,000원</b></li></ul></div><p style="margin-top:8px">2026년 3세 기준 실제 내는 금액. 영어 특성화비가 교육과정 합계에 들어 있어요.</p>'},
+    once:{f:'ok',v:'입학금 150,000원 (가방·체육복·약주머니·원아수첩·보험) · 원복 별도',d:'원복 가격은 자료에 없어요.'},
+    y27:{f:'q',v:'2027년 변화는 자료 없음',d:'만 3세 추가지원이 생기면 금액이 어떻게 바뀌는지 물어보세요.'},
+    cond:{f:'warn',v:'우선모집은 동생만(약 20명) → 일반 약 37명 · 다자녀도 일반에서 경쟁',d:'<ul><li>5세 57명 전원 신규(재원생 없음).</li><li>다자녀(2자녀 이상) 가정은 일반모집으로 넣어서 경쟁이 셀 수 있어요.</li></ul>'},
+    cls:{f:'ok',v:'3개 반 · 반당 19명 (세 곳 중 가장 적음)',d:'6세 4개 반 22~23명, 7세 4개 반 25명.'},
+    teacher:{f:'warn',v:'담임 1명 + 복도 전담 교사 + 상황별 부담임',d:'<ul><li>고정 보조교사는 없어요.</li><li>복도 전담 교사가 화장실 호출 벨에 바로 와서 뒤처리를 도와줘요.</li><li>수영 시간엔 안전요원·수영 코치가 따로 있어요.</li></ul>'},
+    routine:{f:'warn',v:'정규 시간은 자료 없음 · 놀이 중심, 프로젝트 5주 단위',d:'아이 흥미에 따라 계획이 바뀌어요. 예) 만 3세 "아이스크림 가게" 프로젝트 5주.'},
+    a_body:{f:'ok',v:'원내 해수 수영장(만 3세 물 적응) · 클라이밍',d:'<ul><li>수온 28~32℃, 탈의실까지 바닥 난방, 약품 없는 해수풀.</li><li>클라이밍은 전 연령. 4세 아이짐·축구, 5세 뜀틀·농구·줄넘기.</li><li>수영·클라이밍 횟수는 자료에 없어요.</li></ul>'},
+    a_eng:{f:'ok',v:'[주 20분] 원어민 + [주 25분] 한국인 영어교사',d:'영어유치원식 학습이 아니라 이야기·말하기 위주(GPEIS). 놀이·파닉스·컨텐츠 영어.'},
+    a_read:{f:'ok',v:'[하루 5~7분] 까르르 한글&수 · [주 1회] 원장 그림책',d:'원장님이 교실에 와서 아이와 1:1 그림책 대화를 해요.'},
+    a_char:{f:'q',v:'라온인성놀이(3세): 몸 놀이, 나눔 서클',d:'횟수는 자료에 없어요.'},
+    a_math:{f:'ok',v:'플레이팩토 수학(방과후) · 창의과학(4·5세)',d:'만 3세 정규 수업의 과학·수학 횟수는 자료에 없어요.'},
+    a_art:{f:'ok',v:'송아트 미술 · 방과후 오감퍼포먼스·유리드믹스·키즈토리',d:'키즈토리는 옛이야기·전통문화 활동이에요.'},
+    a_eco:{f:'ok',v:'[월 1회] 숲 밧줄 체험 · [월 1회] 곤충 탐구 · 텃밭',d:'<ul><li>계양산 숲에서 밧줄 그네·흔들다리.</li><li>곤충학자와 야외 관찰 후 놓아주기.</li><li>바깥놀이: 걸어서(쑥공원·넘말공원·진포공원), 원 버스로(연희공원·아라뱃길 등).</li></ul>'},
+    a_event:{f:'ok',v:'3세 견학(목장·농장·교통안전체험관) · 백일행사 · 소풍 · 김장 · 산타',d:'Summer Festival, 파자마데이(4세), 가족운동회, 졸업여행(7세).'},
+    parent:{f:'ok',v:'엄마·아빠 그림책 모임 · 부모 성교육 · 참여수업(격년) · 가족운동회',d:'<ul><li>좋은 그림책을 들려주는 엄마 모임(5주 과정), 아빠 모임(정기).</li><li>원장님 직강 영유아 성교육.</li><li>학부모 참여수업은 격년, 겨울 참관수업, 가족운동회(26년 진행).</li></ul>'},
+    talk:{f:'ok',v:'[주 1회] 키즈노트 놀이 리포트 · 관찰일지',d:'상담 때 선물·음료는 일절 받지 않아요. 정기 상담 주기는 자료에 없어요.'},
+    bus:{f:'warn',v:'월 12,000원 · 마지막 차량 하원 17:00 · 탑승 시간은 자료 없음',d:'<ul><li>운행: 경서동, 검암·백석, 가정·루원, 청라 1~6단지.</li><li>검암·백석, 청라 5·6단지는 등원 1대 + 16시 하원 1대만.</li><li>청라 5·6단지는 2028년 2월까지만 운행.</li><li>경서동은 하원 시간 미정. 큰 버스라 일부 골목은 근처에서 내려요.</li><li>루원시티센트럴타운, 루원e편한세상하늘채, 검암2지구는 안 다녀요.</li></ul>'},
+    first:{f:'warn',v:'자료 없음',d:'아침 몇 시부터 맡길 수 있는지 물어보세요.'},
+    last:{f:'ok',v:'19:00 (17시 이후는 부모가 직접 데리러 감)',d:'차량 하원은 17:00이 마지막이에요.'},
+    after:{f:'ok',v:'종일반 ~19:00 (당직 교사) · 방과후반 + 방과후 특성화',d:'<ul><li>방과후반 월 4만 원(간식, 클라임블록).</li><li>방과후 특성화 월 8만 원: 오감퍼포먼스·유리드믹스·플레이팩토·키즈토리.</li><li>방학: 여름·겨울 전체방학 각 1주 + 자율등원 1주(차량 없음).</li></ul>'},
+    meal:{f:'ok',v:'영양사 직영 · 점심 밥·국·3찬·과일 · 오전 간식 없음 · 오후 간식 매일 조리',d:'<ul><li>점심 약 400kcal. 오전 간식 대신 점심 과일.</li><li>오후 간식은 저녁에 지장 없는 양(하루 열량 10%).</li><li>키즈노트로 매일 급식 사진 공개.</li><li>알레르기 대체식은 자료에 없어요.</li></ul>'},
+    mood:{f:'q',v:'"아이 안의 가능성을 키우는 환경" · 미디어 경계',d:'원 이름은 성경 "세상의 빛과 소금이 되어라"에서 왔어요. 종교 활동 여부는 물어보세요.'}
+  },
+  q:{q1:['part','놀이 중심 유연 운영, 정규 시간은 모름'],q2:['part','도보·버스 공원 바깥놀이, 월 1회 숲 체험'],
+     q3:['ok','19명, 담임 1명 + 복도 전담·상황별 부담임'],q4:['no',''],q5:['ok','즉시 개입해 양쪽 마음 듣고 화해 지도'],q6:['no',''],
+     q7:['part','영양사 상주 직영, 알레르기 대체식은 모름'],q8:['ok','화장실 호출 벨 + 복도 전담 교사'],
+     q9:['part','보험 이중 가입, 투약·연락 방법은 모름'],q10:['part','종일반 최대 19:00, 아침 돌봄은 모름'],
+     q11:['part','저녁엔 당직 교사가 돌봄'],q12:['part','오후 간식 매일 조리 · 방과후반 월 4만 원'],
+     q13:['part','방학 각 1주 + 자율등원 1주(차량 없음)'],q14:['part','노선 있음, 탑승 시간·동승 교사는 모름'],
+     q15:['ok','3개 반 57명 전원 신규'],q16:['ok','재원생·졸업생 동생만 우선, 다자녀는 일반'],
+     q17:['part','입학금 15만 원(원복 별도)'],q18:['part','키즈노트 주 1회 리포트, 상담 주기 모름']}
+},{
+  id:'gyeongseo', name:'경서유치원', sub:'슬라이드 사진 18장 + 원감·원장 강연 녹취록',
+  quick:{cls:'24명 · 부담임·방과후 전담 등 순환 배치',time:'첫 등원 8:00 · 마지막 하원 18:30(최대 19:00)',cost:'약 357,000원 (방과후 포함) → 2027년 약 276,000원 예상',entry:'입학금 없음',prio:'72명 정원 · 일반 인원은 11/16 공고',edu:'따뜻한 인성 + 책톡톡·프로젝트, 숲 체험 월 2회'},
+  sched:[
+    {t:'일반모집 인원 공고',from:'2026-11-16',time:'18시'},
+    {t:'일반모집 접수',from:'2026-11-17',to:'2026-11-23'},
+    {t:'일반모집 발표',from:'2026-11-27'},
+    {t:'등록 마감',from:'2026-11-30'},
+    {t:'포털 대기 번호 유지',from:'2026-12-01',to:'2026-12-31'},
+    {t:'전화 대기 접수 시작',from:'2027-01-04',time:'10시'}
+  ],
+  cells:{
+    cost:{f:'ok',v:'기본+특기적성+방과후+차량 약 357,000원 · 방과후 빼면 약 309,000원',d:'<div class="cost"><ul><li><span>월 기본 교육비</span><b>151,000원</b></li><li><span>월 특기적성(전문강사 5과목)</span><b>155,000원</b></li><li><span>월 방과후(3시 30분 이후)</span><b>51,000원</b></li><li><span>월 차량비(학기납 18,000원)</span><b>3,000원</b></li></ul></div><p style="margin-top:8px">원장님은 만 3세 실부담을 "약 357,000원"이라고 했어요(슬라이드 합계는 360,000원). 방과후를 빼면 약 309,000원이에요(제 계산).</p><ul><li>3자녀 이상 다자녀 지원 월 7만 원(원에서 신청), 차상위·한부모 월 15만 원(주민센터 신청).</li></ul>'},
+    once:{f:'ok',v:'입학금 없음 · 원복·체육복·가방은 실비 구매 또는 물려받기',d:'세 곳 중 처음 드는 돈이 가장 적어요.'},
+    y27:{f:'ok',v:'2027년 11만 원 추가지원 확정 시 약 276,000원 예상 (원장 설명)',d:'교육부 단가는 최대 2.3% 안에서 오를 수 있어요. 만 4세는 2026년 기준 약 276,000원, 7세는 특기적성비 월 7만 원만 내요.'},
+    cond:{f:'ok',v:'72명 정원 · 일반모집 인원은 11/16 18시 포털 공고',d:'<ul><li>우선모집 인원에 따라 일반모집 인원이 정해져요.</li><li>원장님: 2023년생은 아이가 적은 해라 너무 조급해하지 말고 교육 철학과 아이 성향을 보고 1지망을 고르라고 했어요.</li><li>2월까지 이사·퇴원으로 연령별 10명 안팎 추가 자리가 생길 수 있대요.</li><li>우선모집에서 떨어진 경우도 일반모집 추첨으로 이어진다고 설명했어요.</li></ul>'},
+    cls:{f:'ok',v:'3개 반 · 반당 24명 · 72명 전원 신규',d:'만 4세 2개 반 25명(6명 모집), 만 5세 3개 반 25명(7명 모집).'},
+    teacher:{f:'ok',v:'담임 + 부담임 + 방과후 전담 정교사 + 특성화 강사 + 시니어 도우미 + 차량 지도 강사',d:'<ul><li>한 선생님이 3.5시간 넘게 연속으로 아이들을 맡지 않도록 돌아가며 배치해요.</li><li>방과후 선생님도 유치원 정교사 자격이 있어요.</li><li>부담임이 반마다 1명씩인지는 확인이 필요해요.</li><li>교실 카메라로 활동량·놀이 성향을 분석하는 "AI 관찰 비서"를 써요(CCTV·진단용 아님, 상담 때 자료로 공유).</li></ul>'},
+    routine:{f:'ok',v:'등원 8:00~10:00 · 정규 10:00~14:20 · 방과후 14:20~',d:'<table><tr><th>시간</th><th>내용</th></tr><tr><td>8:00~</td><td>개별 등원</td></tr><tr><td>8:45~10:00</td><td>차량 순서대로 도착</td></tr><tr><td>10:00~10:30</td><td>오전 간식</td></tr><tr><td>10:00~14:20</td><td>담임과 누리과정·프로젝트·독서·특성화(과목당 20~30분)</td></tr><tr><td>14:20~</td><td>방과후 전담 선생님에게 인계</td></tr><tr><td>14:50~15:10</td><td>오후 간식</td></tr><tr><td>15:30 / 16:30</td><td>차량 하원 1차 / 2차 출발</td></tr><tr><td>18:00~18:30</td><td>개별 하원 (최대 19:00)</td></tr></table><p style="margin-top:6px">교실 안에 화장실·싱크대가 있어 선생님 눈앞에서 배변·손 씻기·양치를 해요.</p>'},
+    a_body:{f:'warn',v:'천연 잔디 축구장·놀이터·대강당 · [연 2회] 생존수영(만 5세)',d:'특기적성 5과목 이름은 자료에 없어요. 체육이 포함되는지 물어보세요.'},
+    a_eng:{f:'q',v:'독서·영어 골든벨 · 영어 수업 횟수는 자료 없음',d:'특기적성에 영어가 있는지 확인하세요.'},
+    a_read:{f:'ok',v:'[월 2권] 책톡톡 독서 · 한글 어드벤처(만 3세 자음·모음)',d:'<ul><li>한 권을 2주 동안 반복·심화해서 읽고 감정·문제 상황을 이야기해요.</li><li>[주 2회, 월·수] 아나운서 발표는 만 4~5세.</li></ul>'},
+    a_char:{f:'ok',v:'세럼 인성(만 3세: 내 감정 알고 표현하기)',d:'만 4세는 친구 관계·갈등 해결. 이야기책과 인성 게임으로 해요. 횟수는 자료에 없어요.'},
+    a_math:{f:'ok',v:'방과후 한글·수, 실험과학 · AI 코딩(챗키드로)',d:'<ul><li>실험과학은 5·6세반, 보드게임은 7세.</li><li>AI 코딩: 자율자동차 → AI 로봇 → 드론·블록 3단계. 교구는 수료 후 집으로 보내줘요. 만 3세부터 하는지는 확인 필요.</li><li>프로젝트 수업(연 7~8주)과 놀이 경제·한자는 만 4~5세.</li></ul>'},
+    a_art:{f:'q',v:'방과후 종이접기·미술놀이',d:'정규 미술·음악 횟수는 자료에 없어요.'},
+    a_eco:{f:'ok',v:'[월 2회] 숲 체험(숲해설가) · 농장(감자·무·배추) · 김장',d:'실외 놀이터 활동은 수시로 해요.'},
+    a_event:{f:'ok',v:'[연 4회 이상] 놀이데이·쿠킹 · 여름캠프(야간) · 100일파티 · 견학·소풍',d:'<ul><li>씨름·딱지치기 대회, 운동회, 독서·영어 골든벨, 물놀이.</li><li>견학: 독립운동기념관, 벼 베기, 공연, 안전체험관, 어린이과학관, 도자기. 소풍: 김포 노라바바, 파주 플레이월드.</li><li>소풍 도시락은 원에서 준비해요.</li></ul>'},
+    parent:{f:'ok',v:'운동회(5월) · 급식 모니터링(연 7회) · 참관(6월) · 참여수업(10월) · 발표회(12월)',d:'<ul><li>신학기 오리엔테이션(3월), 찾아가는 산타(12월, 아파트 거점), 졸업식(2월).</li><li>프로젝트 때 집에서 자료를 보내는 협조가 있어요.</li></ul>'},
+    talk:{f:'ok',v:'신학기 방문상담 1회 + 전화상담 수시 · 냠냠키즈·킨더벨 앱',d:'<ul><li>냠냠키즈: 식판 사진으로 잔반·영양을 앱에서 확인.</li><li>킨더벨: 개별 하원 때 미리 호출, 차량 위치 알림.</li><li>AI 관찰 자료를 상담 때 함께 봐요.</li></ul>'},
+    bus:{f:'ok',v:'월 3,000원 · 편도 30분 이내 원칙 · 하원 15:30 / 16:30 출발',d:'<ul><li>39인승 3대(최대 30명만 태움), 총 9개 코스. 노란 버스, 동승자, 안전벨트, 잠든 아이 확인 벨.</li><li>스쿨존·드롭존 거점 위주로 정차. 노선은 2월 중순 입소 확정 뒤 편성.</li><li>킨더벨 앱: 차량이 1.5km, 500m 안에 오면 알림.</li><li><b>안 다니는 곳</b>: 청라 4·5단지, 루원린스트라우스 더린시티.</li></ul><p style="margin-top:8px"><b>운행 지역(2027)</b></p><ul><li>경서동: 태평샤베르, 가이아샤베르, 아시아드 대광로제비앙, 북청라하우스토리, 푸르지오 트레시엘, 로데오 시티포레안, 연희호반</li><li>청라동: 1·2·3·6단지 (3·6단지 차량은 등원이 이른 편)</li><li>백석동: 검암 푸르지오 1·2단지 (정문 드롭존 2곳만)</li><li>가정동 3개 코스: A 루원호반·제일풍경채·루원더퍼스트·금호어울림 / B SK 1차·지웰푸르지오·대성 1차·포레나 / C 대성베르힐 2차·SK 2차·하나포레나</li></ul><p style="margin-top:8px"><b>2026년 청라 실제 탑승 시간</b> (등원 / 하원)</p><ul><li>청라국제업무단지·대광로제비앙 쪽: 8:17~8:26 / 3:42~3:55</li><li>한화꿈에그린·제일풍경채·푸르지오·에일린의뜰 쪽: 8:15~8:30 / 3:53~4:13</li><li>중흥S클래스 1단지·웰카운티 1차 쪽: 8:52~9:01 / 4:26~4:35</li><li>중흥S클래스 2단지·우미린·서해그랑블·호반 쪽: 8:58~9:14 / 5:02~5:15</li></ul>'},
+    first:{f:'ok',v:'8:00 (개별 등원)',d:'차량은 8:45부터 순서대로 도착해요.'},
+    last:{f:'ok',v:'18:00~18:30 (최대 19:00)',d:'차량 하원은 16:30 출발이 마지막이에요.'},
+    after:{f:'ok',v:'14:20~18:30(최대 19:00) · 방과후 전담 정교사 · 교재 기반 수업',d:'<ul><li>14:10 이후 같은 시간에 하원하는 아이끼리 연령별로 반을 다시 나눠요.</li><li>그냥 자유놀이만 하지 않고 한글·수, 실험과학, 보드게임, 신체놀이를 계획해서 해요.</li><li>월 51,000원(3시 30분 이후).</li><li>방학 중 등원은 맞벌이, 임산부, 12개월 미만 동생, 3자녀 이상 가정만.</li></ul>'},
+    meal:{f:'ok',v:'직영 조리 · 김치 직접 담금 · 천연 육수 · 오전·오후 간식',d:'<ul><li>오전 간식(10:00~10:30): 흰우유, 짜요짜요, 요구르트, 과일·채소 등 매일 바뀜. 배 채우는 용도가 아니라 아침은 집에서 먹고 오래요.</li><li>오후 간식(14:50~15:10): 든든한 식단.</li><li>정량 배식, 냠냠키즈로 잔반 확인. 보존식 7일 냉동 보관.</li><li>알레르기 대체식은 자료에 없어요.</li></ul>'},
+    mood:{f:'q',v:'"똑똑한 시대, 이제는 마음이 따뜻한 아이" · 선생님 팀워크 강조',d:'원장 임현정, 원감 윤지희. 유튜브 "경서로운생활"에서 원 생활을 볼 수 있어요. 후기 슬라이드는 원에서 고른 내용이라 참고만 하세요.'}
+  },
+  q:{q1:['ok','등원 8~10시, 정규 10~14:20, 방과후 14:20~'],q2:['part','실외 놀이터 수시·숲 체험 월 2회 (매일 시간은 모름)'],
+     q3:['ok','24명, 부담임·방과후 전담·시니어 도우미 등'],q4:['part','신학기 적응 사례만 소개'],q5:['no',''],q6:['no',''],
+     q7:['part','직영 조리·김치 직접, 알레르기 대체식은 모름'],q8:['ok','교실 안 화장실, 선생님이 바로 도움'],q9:['no',''],
+     q10:['ok','아침 8시 등원, 방과후 18:30(최대 19:00)'],q11:['ok','14:10 이후 연령별 재편성, 방과후 전담 교사'],
+     q12:['part','오후 간식 14:50~15:10, 저녁 없음 · 방과후 월 51,000원'],q13:['part','방학 등원은 맞벌이 등 조건부'],
+     q14:['ok','2026 노선별 탑승 시간, 편도 30분 이내, 동승자'],q15:['ok','만 3세 72명, 일반 인원은 11/16 공고'],
+     q16:['part','우선 탈락도 일반 추첨 연계, 우선 기준은 모름'],q17:['ok','입학금 없음, 원복은 실비·물려받기'],
+     q18:['ok','신학기 방문상담 1회 + 전화상담 수시']}
+}];
+
+const ROWS=[
+  {g:'1. 비용 · 조건'},
+  {k:'cost',l:'월 비용',s:'만 3세 · 2026 기준'},
+  {k:'once',l:'처음 드는 돈',s:'입학금·원복'},
+  {k:'y27',l:'2027년 변화'},
+  {k:'cond',l:'모집 조건',s:'우리 집 = 일반모집'},
+  {g:'2. 반 인원 · 교사 인원'},
+  {k:'cls',l:'반 인원',s:'만 3세'},
+  {k:'teacher',l:'교사 배치'},
+  {g:'3. 신청 일정 · 알림 → 위 "원서접수 일정" 참고'},
+  {g:'4. 일과 · 특별활동 (횟수)'},
+  {k:'routine',l:'하루 일과'},
+  {k:'a_body',l:'체육 · 신체'},
+  {k:'a_eng',l:'영어'},
+  {k:'a_read',l:'독서 · 한글'},
+  {k:'a_char',l:'인성'},
+  {k:'a_math',l:'수 · 과학 · 코딩'},
+  {k:'a_art',l:'미술 · 음악'},
+  {k:'a_eco',l:'숲 · 생태 · 바깥'},
+  {k:'a_event',l:'행사 · 견학'},
+  {g:'5. 연간 부모 참여'},
+  {k:'parent',l:'참여 행사'},
+  {k:'talk',l:'상담 · 소통'},
+  {g:'6. 차량 운행 · 등하원 시간'},
+  {k:'bus',l:'차량'},
+  {g:'7. 첫 등원 · 마지막 하원'},
+  {k:'first',l:'가장 이른 등원'},
+  {k:'last',l:'가장 늦은 하원'},
+  {g:'8. 방과후 운영'},
+  {k:'after',l:'시간 · 방식'},
+  {g:'9. 간식 · 점심'},
+  {k:'meal',l:'급식 · 간식'},
+  {g:'참고'},
+  {k:'mood',l:'교육 철학',s:'설명회 인상'},
+  {k:'memo',l:'내 메모'}
+];
+
+const QS=[['q1','실제 하루 일과'],['q2','자유놀이·바깥놀이 시간'],['q3','반 정원, 담임·보조 여부'],['q4','우는 아이 적응 돕기'],['q5','친구 갈등 중재'],['q6','담임 매년 교체 여부'],['q7','급식 직영·알레르기 대체식'],['q8','배변 실수 도움'],['q9','투약, 아프거나 다쳤을 때 연락'],['q10','방과후·아침 돌봄 시간'],['q11','오후 합반·교사 교체'],['q12','늦은 하원 간식·저녁'],['q13','방학 중 돌봄·급식·차량'],['q14','차량 탑승 시간·동승 교사'],['q15','만 3세반 모집 인원'],['q16','우선모집 조건·형제자매'],['q17','차량·교재·원복 등 추가 비용'],['q18','상담 주기·알림장']];
+
+(function(){
+  const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const today=new Date();today.setHours(0,0,0,0);
+  const day=s=>{const d=new Date(s+'T00:00:00');return d};
+  const dlabel=s=>{const d=day(s);return (d.getMonth()+1)+'/'+d.getDate()+'('+'일월화수목금토'[d.getDay()]+')'};
+  const dleft=s=>Math.round((day(s)-today)/864e5);
+  document.getElementById('kgcount').textContent=KG.length;
+
+  // 일정 + 알림
+  // 우리 집은 일반모집 대상: 우선모집 일정은 빼고 보여줌
+  const FAMILY_GENERAL=true;
+  const ev=[];KG.forEach(k=>k.sched.forEach(s=>{if(FAMILY_GENERAL&&s.t.startsWith('우선모집'))return;ev.push({...s,kg:k.name})}));
+  ev.sort((a,b)=>a.from.localeCompare(b.from));
+  const sc=document.getElementById('sched');
+  ev.forEach(e=>{const end=e.to||e.from;const past=dleft(end)<0;const n=dleft(e.from);
+    const tag=past?'<span class="dday past">지남</span>':(n<=0?'<span class="dday">진행 중'+(e.to?' · 마감 D-'+dleft(e.to):'')+'</span>':'<span class="dday">D-'+n+'</span>');
+    const el=document.createElement('div');if(past)el.className='past';
+    el.innerHTML='<span><b>'+esc(e.kg)+' '+esc(e.t)+'</b>'+dlabel(e.from)+(e.to?' ~ '+dlabel(e.to):'')+(e.time?' '+esc(e.time):'')+'</span>'+tag;sc.appendChild(el)});
+  KG.filter(k=>!k.sched.length).forEach(k=>{const el=document.createElement('div');el.innerHTML='<span><b>'+esc(k.name)+'</b>접수·발표 날짜가 자료에 없어요. 유보통합포털이나 원에 확인하세요.</span><span class="dday past">확인 필요</span>';sc.appendChild(el)});
+
+  // 핵심 차이
+  const QK=[['cls','만 3세 반'],['time','하원 시간'],['cost','월 비용','기본 / 오후까지 · 원마다 기본에 든 항목이 달라요'],['entry','처음 드는 돈'],['prio','일반모집 자리','우리 집 해당'],['edu','교육 색깔']];
+  document.getElementById('quick').innerHTML='<thead><tr><th scope="col" style="position:sticky;left:0;z-index:2">항목</th>'+KG.map(k=>'<th scope="col">'+esc(k.name)+'</th>').join('')+'</tr></thead><tbody>'+QK.map(([key,l,s])=>'<tr><th scope="row">'+esc(l)+(s?'<span>'+esc(s)+'</span>':'')+'</th>'+KG.map(k=>'<td class="v">'+esc((k.quick||{})[key]||'자료 없음')+'</td>').join('')+'</tr>').join('')+'</tbody>';
+  const now=ev.filter(e=>dleft(e.from)<=0&&dleft(e.to||e.from)>=0);
+  const next=ev.find(e=>dleft(e.from)>0);
+  const al=document.getElementById('alert');
+  if(now.length){al.innerHTML='<span class="dday">지금 진행 중</span><span>'+now.map(e=>'<b>'+esc(e.kg)+' '+esc(e.t)+'</b>'+(e.to?' · '+dlabel(e.to)+'까지':'')).join(' / ')+'. 1·2·3지망 순서를 정해 기간 안에 유보통합포털에서 접수하세요.</span>'}
+  else if(next){al.innerHTML='<span class="dday">D-'+dleft(next.from)+'</span><span>다음 일정: <b>'+esc(next.kg)+' '+esc(next.t)+'</b> '+dlabel(next.from)+'</span>'}
+  else al.hidden=true;
+
+  // 비교표
+  const t=document.getElementById('kgtable');
+  const cols=KG.length;
+  let h='<thead><tr><th scope="col" style="position:sticky;left:0;z-index:2">항목</th>'+KG.map(k=>'<th scope="col">'+esc(k.name)+'<small>'+esc(k.sub)+'</small></th>').join('')+'</tr></thead><tbody>';
+  ROWS.forEach(r=>{
+    if(r.g){h+='<tr class="grp"><th colspan="'+(cols+1)+'">'+esc(r.g)+'</th></tr>';return}
+    h+='<tr><th scope="row">'+esc(r.l)+(r.s?'<span>'+esc(r.s)+'</span>':'')+'</th>';
+    KG.forEach(k=>{
+      if(r.k==='memo'){h+='<td><label class="addnext" for="kgmemo-'+k.id+'">설명회 느낌, 걸린 점</label><textarea class="kgmemo" id="kgmemo-'+k.id+'" data-memo="kg-'+k.id+'" placeholder="마음에 든 점 / 걸린 점 / 다시 물어볼 것"></textarea></td>';return}
+      const c=k.cells[r.k];
+      if(!c){h+='<td><span class="flag q">자료 없음</span></td>';return}
+      const fl={ok:'<span class="flag ok">확인</span>',warn:'<span class="flag warn">일부</span>',q:'<span class="flag q">참고</span>'}[c.f]||'';
+      h+='<td>'+fl+'<span class="v">'+esc(c.v).replace(/\[(.+?)\]/g,'<span class="fq">$1</span>')+'</span>'+(c.d?'<details class="more"><summary>자세히</summary><div class="body">'+c.d+'</div></details>':'')+'</td>';
+    });
+    h+='</tr>';
+  });
+  t.innerHTML=h+'</tbody>';
+
+  // 질문 체크표
+  const qt=document.getElementById('qtable');
+  const lab={ok:'확인',part:'일부',no:'없음'};
+  let q='<thead><tr><th scope="col" style="position:sticky;left:0;z-index:2">질문 (카드 7장)</th>'+KG.map(k=>{
+    const c={ok:0,part:0,no:0};QS.forEach(([id])=>c[(k.q[id]||['no'])[0]]++);
+    return '<th scope="col">'+esc(k.name)+'<small><span class="sum"><span class="st ok">확인 '+c.ok+'</span><span class="st part">일부 '+c.part+'</span><span class="st no">없음 '+c.no+'</span></span></small></th>'}).join('')+'</tr></thead><tbody>';
+  QS.forEach(([id,l])=>{q+='<tr><th scope="row">'+esc(l)+'</th>'+KG.map(k=>{const [s,txt]=k.q[id]||['no',''];return '<td><span class="st '+s+'">'+lab[s]+'</span> '+esc(txt||(s==='no'?'자료에 없어요':''))+'</td>'}).join('')+'</tr>'});
+  qt.innerHTML=q+'</tbody>';
+
+  // 전화로 물어볼 것
+  const cl=document.getElementById('calllist');
+  cl.innerHTML='<h2>전화로 물어볼 것</h2><p class="desc">자료에 답이 없거나 일부만 있던 질문이에요. 만 3세에게 중요한 것부터 정리했어요.</p>'+KG.map(k=>{
+    const order=['q4','q8','q14','q2','q3','q11','q10','q13','q7','q9','q5','q6','q12','q17','q18','q15','q1','q16'];
+    const items=order.filter(id=>(k.q[id]||['no'])[0]!=='ok').map(id=>QS.find(x=>x[0]===id)[1]);
+    return '<p style="margin:10px 0 0"><b>'+esc(k.name)+'</b> ('+items.length+'개)</p><ol>'+items.map(s=>'<li>'+esc(s)+'</li>').join('')+'</ol>'}).join('');
+
+  // 탭
+  const tabs=[['cards',document.getElementById('tab-cards'),document.getElementById('panel-cards')],['compare',document.getElementById('tab-compare'),document.getElementById('panel-compare')]];
+  const jump=document.getElementById('jump');
+  const show=name=>{tabs.forEach(([n,b,p])=>{const on=n===name;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;p.hidden=!on});jump.hidden=name!=='cards';try{localStorage.setItem('kinder23-tab',name)}catch(e){}};
+  tabs.forEach(([n,b])=>b.onclick=()=>show(n));
+  document.querySelector('.tabs').addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const i=tabs.findIndex(x=>x[1].getAttribute('aria-selected')==='true');const j=(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;show(tabs[j][0]);tabs[j][1].focus()}});
+  let start='cards';
+  if(location.hash==='#compare')start='compare';else{try{start=localStorage.getItem('kinder23-tab')||'cards'}catch(e){}}
+  show(start==='compare'?'compare':'cards');
+})();
+
+// 카드별 메모: 로그인한 경우 내 계정에만 저장(다른 기기에서도 보임), 아니면 이 브라우저에만 저장
+(function(){
+  const hints=['전체 일정 메모 (예: 설명회 날짜, 원서접수일)','우리 아이가 연습 중인 것','아이에 대해 궁금했던 점','우리 아이 성향 메모','설명회에서 물어볼 우리 아이 질문','후보 유치원·예약 현황','추가로 물어볼 질문','설명회에서 본 것','순위 정한 이유','1·2·3지망과 접수·발표·등록 날짜'];
+  const LK='kinder23-memo';let local={};
+  try{local=JSON.parse(localStorage.getItem(LK)||'{}')}catch(e){local={}}
+  const saveLocal=()=>{try{localStorage.setItem(LK,JSON.stringify(local))}catch(e){}};
+  const boxes=[];
+  document.querySelectorAll('#track .slide').forEach((s,i)=>{
+    const n=i+1,id='memo'+n;
+    const w=document.createElement('div');w.className='memo';
+    w.innerHTML='<label for="'+id+'">메모 · '+String(n).padStart(2,'0')+'<span aria-live="polite"></span></label><textarea id="'+id+'"></textarea>';
+    const ta=w.querySelector('textarea');ta.placeholder=hints[i]||'메모';ta.value=local[n]||'';
+    s.appendChild(w);boxes.push({n,ta,st:w.querySelector('label span')});
+  });
+  // 유치원 비교 탭의 '내 메모' 칸도 같은 방식으로 저장
+  document.querySelectorAll('textarea[data-memo]').forEach(ta=>{
+    const n=ta.dataset.memo;ta.value=local[n]||'';
+    const st=document.createElement('span');st.className='addnext';st.setAttribute('aria-live','polite');ta.after(st);
+    boxes.push({n,ta,st});
+  });
+  let remote=null;
+  const timers={};
+  boxes.forEach(b=>b.ta.addEventListener('input',()=>{
+    local[b.n]=b.ta.value;saveLocal();b.st.textContent='저장 중…';
+    clearTimeout(timers[b.n]);
+    timers[b.n]=setTimeout(async()=>{
+      if(remote){try{await remote.doc('memo-'+b.n).set({text:b.ta.value});b.st.textContent='저장됨';}catch(e){b.st.textContent='이 기기에만 저장됨';}}
+      else b.st.textContent='이 기기에만 저장됨';
+    },900);
+  }));
+  (async()=>{
+    try{
+      if(!window.claude||!claude.use)return;
+      const [db,user]=await Promise.all([claude.use('db'),claude.use('user')]);
+      if(!db||!user)return;
+      const uid=await user.id();if(!uid)return;
+      const col=db.collection('data/users/'+uid);
+      for(const b of boxes){
+        const snap=await col.doc('memo-'+b.n).get();
+        if(snap.exists){const t=(snap.data()||{}).text||'';if(t&&document.activeElement!==b.ta){b.ta.value=t;local[b.n]=t;}}
+        else if(b.ta.value){await col.doc('memo-'+b.n).set({text:b.ta.value});}
+      }
+      saveLocal();remote=col;
+    }catch(e){}
+  })();
+})();
+</script>
+
+</body>
+</html>
